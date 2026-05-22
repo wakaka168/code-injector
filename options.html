@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Injector - 规则配置</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔧 Code Injector</h1>
+      <p class="subtitle">在指定网页中注入或替换代码</p>
+    </header>
+
+    <!-- 全局设置 -->
+    <section class="settings-section">
+      <h2>⚙️ 全局设置</h2>
+      <label class="toggle-label">
+        <input type="checkbox" id="autoInject">
+        <span>页面加载时自动执行匹配规则</span>
+      </label>
+    </section>
+
+    <!-- 规则列表 -->
+    <section class="rules-section">
+      <div class="rules-header">
+        <h2>📋 注入规则</h2>
+        <button class="btn btn-primary" id="addRuleBtn">+ 新建规则</button>
+      </div>
+
+      <div id="rulesList" class="rules-list">
+        <!-- 规则卡片会动态生成 -->
+      </div>
+
+      <div id="emptyState" class="empty-state">
+        <p>暂无规则，点击上方按钮新建</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- 规则编辑弹窗 -->
+  <div id="ruleModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">新建规则</h3>
+        <button class="btn-close" id="closeModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="ruleId">
+
+        <div class="form-group">
+          <label for="ruleName">规则名称</label>
+          <input type="text" id="ruleName" placeholder="例如：注入自定义样式" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="ruleEnabled">
+            <input type="checkbox" id="ruleEnabled" checked> 启用此规则
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="urlPattern">网址匹配 <small>（支持正则表达式，留空或 * 匹配所有网址）</small></label>
+          <input type="text" id="urlPattern" placeholder="例如：https://example.com/.*" class="form-control">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="selectorType">定位方式</label>
+            <select id="selectorType" class="form-control">
+              <option value="css">CSS 选择器</option>
+              <option value="xpath">XPath</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="contentType">代码类型</label>
+            <select id="contentType" class="form-control">
+              <option value="html">HTML</option>
+              <option value="css">CSS</option>
+              <option value="js">JavaScript</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" id="selectorGroup">
+          <label for="selector">目标选择器 <small>（CSS/XPath 选择器，CSS/JS 类型可留空）</small></label>
+          <input type="text" id="selector" placeholder="例如：#header 或 //div[@class='header']" class="form-control">
+        </div>
+
+        <div class="form-group" id="positionGroup">
+          <label for="injectPosition">注入位置</label>
+          <select id="injectPosition" class="form-control">
+            <option value="after">元素后面 (after)</option>
+            <option value="before">元素前面 (before)</option>
+            <option value="append">元素内部末尾 (append)</option>
+            <option value="prepend">元素内部开头 (prepend)</option>
+            <option value="replace">替换元素 (replace)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="matchAll"> 匹配所有符合条件的元素
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label for="code">注入代码</label>
+          <textarea id="code" rows="10" placeholder="在此输入要注入的代码..." class="form-control code-editor"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelBtn">取消</button>
+        <button class="btn btn-primary" id="saveBtn">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 导入导出 -->
+  <div class="container" style="margin-top: 20px;">
+    <section class="settings-section">
+      <h2>📦 数据管理</h2>
+      <div class="data-actions">
+        <button class="btn btn-secondary" id="exportBtn">导出规则</button>
+        <button class="btn btn-secondary" id="importBtn">导入规则</button>
+        <input type="file" id="importFile" accept=".json" style="display:none">
+      </div>
+    </section>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
